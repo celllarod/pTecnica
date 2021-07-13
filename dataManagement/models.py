@@ -128,6 +128,7 @@ class Monitoring(models.Model):
     voltage = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
     intensity = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
     power_factor = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    id = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = False

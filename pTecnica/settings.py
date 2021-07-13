@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'pTecnica.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+# TODO: ocultar informacion relevante de la bd y poner en local_settings
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
