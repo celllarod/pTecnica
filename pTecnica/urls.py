@@ -20,5 +20,5 @@ from dataManagement.api import  urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('monitoring/', include(urls)),
+    path('', include(urls)),
 ]

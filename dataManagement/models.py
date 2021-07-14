@@ -119,16 +119,16 @@ class DjangoSession(models.Model):
 
 
 class Monitoring(models.Model):
-    date_hour = models.CharField(max_length=65535)
-    energy = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    reactive_energy = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    pow = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    maximeter = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    reactive_power = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    voltage = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    intensity = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    power_factor = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    id = models.IntegerField(primary_key=True)
+    date_hour = models.CharField(max_length=20)
+    energy = models.DecimalField(max_digits=7, decimal_places=3, blank=True, null=True)
+    reactive_energy = models.DecimalField(max_digits=7, decimal_places=3, blank=True, null=True)
+    pow = models.DecimalField(max_digits=7, decimal_places=3, blank=True, null=True)
+    maximeter = models.DecimalField(max_digits=7, decimal_places=3, blank=True, null=True)
+    reactive_power = models.DecimalField(max_digits=7, decimal_places=3, blank=True, null=True)
+    voltage = models.DecimalField(max_digits=7, decimal_places=3, blank=True, null=True)
+    intensity = models.DecimalField(max_digits=7, decimal_places=3, blank=True, null=True)
+    power_factor = models.DecimalField(max_digits=7, decimal_places=3, blank=True, null=True)
+    id = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
