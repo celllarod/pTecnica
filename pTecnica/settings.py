@@ -76,18 +76,21 @@ WSGI_APPLICATION = 'pTecnica.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-# TODO: ocultar informacion relevante de la bd y poner en local_settings
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pruebaTecnica',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': 'platform',
+        'USER': 'slim',
+        'PASSWORD': 'root',
+        'HOST': 'postgresql01',
+        'PORT': '5432'
     }
 }
 
+try:
+    from .local_settings import *
+except ImportError as e:
+    pass
 
 
 # Password validation
