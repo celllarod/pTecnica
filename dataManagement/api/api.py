@@ -1,55 +1,54 @@
-from rest_framework.decorators import api_view
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from dataManagement.api.selializers import MonitoringSerializer
-from dataManagement.models import Monitoring
-from rest_framework import status
 
 
-@api_view(['GET', 'POST'])
-def monitoring_api_view(request):
-    """Consulta de la tabla 'monitoring' completa"""
-    if request.method == 'GET':
-        measures = Monitoring.objects.all()
-        monitoring_serializer = MonitoringSerializer(measures, many=True)
+class MonitoringViewSet(viewsets.ModelViewSet):
+    serializer_class = MonitoringSerializer
+
+    # Consulta
+    def get_queryset(self, pk=None):
+        if pk is None:
+            return self.get_serializer().Meta.model.objects.all()
+        return self.get_serializer().Meta.model.objects.filter(id=pk).first()
+
+    """ Consulta de la tabla 'monitoring' completa """
+
+    def list(self, request):
+        monitoring_serializer = self.get_serializer(self.get_queryset(), many=True)
         return Response(monitoring_serializer.data, status=status.HTTP_200_OK)
 
-    """Inserción de nuevo elemento en la tabla 'monitoring"""
-    if request.method == 'POST':
-        monitoring_serializer = MonitoringSerializer(data=request.data)
+    """ Inserción de una nueva medida en la tabla 'monitoring' """
+
+    def create(self, request):
+        monitoring_serializer = self.serializer_class(data=request.data)
         if monitoring_serializer.is_valid():
             monitoring_serializer.save()
-            return Response(monitoring_serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(monitoring_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': 'Measure succesfully recorded !'}, status=status.HTTP_201_CREATED)
+        return Response(monitoring_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    """ Consulta de una fila de la tabla 'monitoring' según su id """
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def monitoring_detail_api_view(request, pk=None):
-    measure = Monitoring.objects.filter(id=pk).first()
+    def retrieve(self, request, pk=None):
+        monitoring_serializer = MonitoringSerializer(self.get_queryset(pk))
+        return Response(monitoring_serializer.data, status=status.HTTP_200_OK)
 
-    if measure:
+    """ Actualizar elemento de la tabla 'monitoring' """
 
-        """Consultar tabla 'monitoring' por id"""
-        if request.method == 'GET':
-            monitoring_serializer = MonitoringSerializer(measure)
-            return Response(monitoring_serializer.data, status=status.HTTP_200_OK)
-
-        """Actualizar elemento de la tabla 'monitoring'"""
-        if request.method == 'PUT':
-            measure = Monitoring.objects.filter(id=pk).first()
-            monitoring_serializer = MonitoringSerializer(measure, data=request.data)
+    def update(self, request, pk=None):
+        if self.get_queryset(pk):
+            monitoring_serializer = self.serializer_class(self.get_queryset(pk), data=request.data)
             if monitoring_serializer.is_valid():
                 monitoring_serializer.save()
                 return Response(monitoring_serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response(monitoring_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(monitoring_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        """Eliminar elemento de la tabla 'monitoring'"""
-        if request.method == 'DELETE':
-            measure = Monitoring.objects.filter(id=pk).first()
-            measure.delete()
-            return Response({'message':'Measure removed successfully!'}, status=status.HTTP_200_OK)
+    """ Actualizar elemento de la tabla 'monitoring' """
 
-    else:
-        return Response({'message': 'No measure was found with the specified id'}, status=status.HTTP_400_BAD_REQUEST)
-
+    def destroy(self, request, pk=None):
+        monitoring = self.get_queryset().filter(id=pk).first()  # get instance
+        if monitoring:
+            monitoring.state = False
+            monitoring.save()
+            return Response({'message': 'Measure removed successfully!'}, status=status.HTTP_200_OK)
+        return Response({'error': 'No existe un Producto con estos datos!'}, status=status.HTTP_400_BAD_REQUEST)

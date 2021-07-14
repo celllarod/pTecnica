@@ -1,8 +1,28 @@
-from django.urls import path
+from django.urls import path, re_path
+from rest_framework import permissions, routers
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from dataManagement.api.api import MonitoringViewSet
 
-from dataManagement.api.api import monitoring_api_view, monitoring_detail_api_view
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Documentación API",
+        default_version='v1',
+        description="Documentación de la API creada para el desarrollo de la prueba técnica de python",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email=""),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
-urlpatterns = [
-    path('api/', monitoring_api_view, name='monitoring_api'),
-    path('api/<int:pk>', monitoring_detail_api_view, name='monitoring_detail_api_view')
+router = routers.SimpleRouter()
+router.register(r'monitoring', MonitoringViewSet, basename='monitoring-api')
+urlpatterns = router.urls
+
+urlpatterns += [
+    re_path('swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
