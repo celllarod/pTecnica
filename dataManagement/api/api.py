@@ -1,3 +1,4 @@
+from django.views.decorators.cache import cache_control
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from dataManagement.api.selializers import MonitoringSerializer
@@ -14,6 +15,7 @@ class MonitoringViewSet(viewsets.ModelViewSet):
 
     """ Consulta de la tabla 'monitoring' completa """
 
+    @cache_control(max_age=59 * 5)
     def list(self, request):
         monitoring_serializer = self.get_serializer(self.get_queryset(), many=True)
         return Response(monitoring_serializer.data, status=status.HTTP_200_OK)
