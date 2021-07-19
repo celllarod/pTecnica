@@ -1,0 +1,46 @@
+#container {
+    margin: 50px auto auto auto;
+    border-width: 5px;
+    border-style: solid;
+    border-image: linear-gradient(#3f9e4d, #388b97) 1;
+    border-radius: .25rem;
+    max-width: 50%;
+}
+
+form{
+    padding: 20px;
+}
+
+.form-group{
+    padding: 5px;
+}
+
+.row{
+    margin: 15px;
+    gap: 10%;
+}
+
+
+button{
+    text-transform: uppercase;
+}
+
+button:hover{
+    background-color: #5a5;
+}
+
+#submit{
+    background-color: #388b97;
+    border-color: #388b97;
+    float: right;
+    display: inline-block;
+}
+
+#reset{
+    background-color: #3f9e4d;
+    border-color: #3f9e4d;
+    float: left;
+    display: inline-block;
+}
+
+

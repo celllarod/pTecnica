@@ -1,5 +1,5 @@
 # Create your views here.
-from django.http import request
+from django.http import request, HttpResponse
 from django.shortcuts import render
 
 from .models import Monitoring
@@ -25,3 +25,22 @@ def data(request):
         request,
         'data.html'
     )
+
+
+def dataForm(request):
+    """
+    Función vista para la página que muestra un formulario para crear/actualizar medida.
+    """
+
+    return render(
+        request,
+        'dataForm.html'
+    )
+
+
+def update(request):
+    """
+    Función vista que procesa formulario para modificar una medida
+    """
+
+    return HttpResponse("Prueba")

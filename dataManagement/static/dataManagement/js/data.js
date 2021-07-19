@@ -21,6 +21,8 @@ function fillTable(data){
         // showLoading(tdiv);
 
         // Insertamos filas en la tabla con el contenido de  'data'
+        data = data.slice(0, 40); //TODO: eliminar esto, lo he puesto solo para pruebas
+        console.log('[DEBUG]', data)
         for (elem in data){
             // Creamos elementos de la tabla
             var fila = document.createElement("tr")
