@@ -51,6 +51,6 @@ class MonitoringViewSet(viewsets.ModelViewSet):
         monitoring = self.get_queryset().filter(id=pk).first()  # get instance
         if monitoring:
             monitoring.state = False
-            monitoring.save()
+            monitoring.delete()
             return Response({'message': 'Measure removed successfully!'}, status=status.HTTP_200_OK)
         return Response({'error': 'No existe un Producto con estos datos!'}, status=status.HTTP_400_BAD_REQUEST)

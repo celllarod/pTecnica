@@ -37,10 +37,3 @@ def dataForm(request):
         'dataForm.html'
     )
 
-
-def update(request):
-    """
-    Función vista que procesa formulario para modificar una medida
-    """
-
-    return HttpResponse("Prueba")

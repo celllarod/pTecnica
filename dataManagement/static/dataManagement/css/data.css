@@ -29,3 +29,10 @@
 table  { border-collapse: collapse; width: 100%; }
 th, td { padding: 8px 16px; }
 th     { background:#eee; }
+
+#bmore{
+    background-color: #388b97;
+    border-color: #388b97;
+    float: right;
+    display: inline-block;
+}
