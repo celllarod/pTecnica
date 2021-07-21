@@ -11,12 +11,11 @@ class MonitoringViewSet(viewsets.ModelViewSet):
     # Consulta
     def get_queryset(self, pk=None):
         if pk is None:
-            return self.get_serializer().Meta.model.objects.all()
+            return self.get_serializer().Meta.model.objects.all().order_by("id")
         return self.get_serializer().Meta.model.objects.filter(id=pk).first()
 
     """ Consulta de la tabla 'monitoring' completa """
 
-    @cache_control(max_age=59 * 5)
     def list(self, request):
         logging.debug("[DEBUG]", "Inside api.list()")
         monitoring_serializer = self.get_serializer(self.get_queryset(), many=True)

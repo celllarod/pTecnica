@@ -74,7 +74,7 @@ tbody tr:hover {
 }
 
 .loader-text:after {
-    content: 'Loading';
+    content: 'Cargando';
     animation: load 2s linear infinite;
 }
 
