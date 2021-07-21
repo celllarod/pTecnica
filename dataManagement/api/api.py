@@ -1,6 +1,7 @@
 from django.views.decorators.cache import cache_control
 from rest_framework import status, viewsets
 from rest_framework.response import Response
+import logging
 from dataManagement.api.selializers import MonitoringSerializer
 
 
@@ -17,12 +18,14 @@ class MonitoringViewSet(viewsets.ModelViewSet):
 
     @cache_control(max_age=59 * 5)
     def list(self, request):
+        logging.debug("[DEBUG]", "Inside api.list()")
         monitoring_serializer = self.get_serializer(self.get_queryset(), many=True)
         return Response(monitoring_serializer.data, status=status.HTTP_200_OK)
 
     """ Inserción de una nueva medida en la tabla 'monitoring' """
 
     def create(self, request):
+        logging.debug("[DEBUG]", "Inside api.create()")
         monitoring_serializer = self.serializer_class(data=request.data)
         if monitoring_serializer.is_valid():
             monitoring_serializer.save()
@@ -32,12 +35,14 @@ class MonitoringViewSet(viewsets.ModelViewSet):
     """ Consulta de una fila de la tabla 'monitoring' según su id """
 
     def retrieve(self, request, pk=None):
+        logging.debug("[DEBUG]", "Inside api.retrieve()")
         monitoring_serializer = MonitoringSerializer(self.get_queryset(pk))
         return Response(monitoring_serializer.data, status=status.HTTP_200_OK)
 
     """ Actualizar elemento de la tabla 'monitoring' """
 
     def update(self, request, pk=None):
+        logging.debug("[DEBUG]", "Inside api.update()")
         if self.get_queryset(pk):
             monitoring_serializer = self.serializer_class(self.get_queryset(pk), data=request.data)
             if monitoring_serializer.is_valid():
@@ -48,6 +53,7 @@ class MonitoringViewSet(viewsets.ModelViewSet):
     """ Actualizar elemento de la tabla 'monitoring' """
 
     def destroy(self, request, pk=None):
+        logging.debug("[DEBUG]", "Inside api.update()")
         monitoring = self.get_queryset().filter(id=pk).first()  # get instance
         if monitoring:
             monitoring.state = False

@@ -2,9 +2,10 @@
 
 function processForm(){
     event.preventDefault();
-    console.log("DEBUG", "Dentro de processForm")
+    console.log("[DEBUG]", "Inside  dataForm.processForm()")
 
-    var date_hour = "hola"
+    var date_hour = moment().format("d MMM YYYY HH:mm:SS");
+   // var date_hour = 'hola';
     var energy = document.getElementById("energy").value;
     var reactive_energy = document.getElementById("react-energy").value;
     var pow = document.getElementById("pow").value;
@@ -14,6 +15,15 @@ function processForm(){
     var intensity = document.getElementById("intensity").value;
     var power_factor = document.getElementById("power-factor").value;
 
+   /* var prueba = {
+        date_hour: date_hour,
+        energy: energy,
+        reactive_energy: reactive_energy,
+        pow: pow,
+        maximeter: maximeter,
+        reactive_power: reactive_power
+    }
+*/
     var data = '{' +
                     '"date_hour" : "' + date_hour + '", ' +
                     '"energy" : "' + energy + '", ' +
@@ -26,11 +36,15 @@ function processForm(){
                     '"power_factor" : "' + power_factor + '"' +
                  '}' ;
 
-
-
     var dataJS = JSON.parse(data);
+    console.log("[DEBUG]", dataJS);
 
-    axios.post("http://127.0.0.1:8000/monitoring-api/", data)
+    axios.post("http://127.0.0.1:8000/monitoring-api/", data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken
+      }
+    })
     .then(function (response) {
         console.log(response);
         var element = document.getElementById("fila-" + id);
@@ -39,8 +53,8 @@ function processForm(){
     .catch(function (error) {
         console.log(error);
     });
+
 /*
-    console.log("[DEBUG]", dataJS);
    //Peticion AJAX
     var peticion ="http://127.0.0.1:8000/monitoring-api/";
     var xmlhttp = new XMLHttpRequest();
@@ -60,5 +74,10 @@ function processForm(){
       };
     xmlhttp.send(JSON.stringify(dataJS));
 */
+}
+
+function goBack() {
+    console.log("[DEBUG]", "Inside dataForm.goBack()");
+    window.location = "http://127.0.0.1:8000/monitoring-data/";
 }
 
